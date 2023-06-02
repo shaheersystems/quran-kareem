@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import surahs from "../data/surahs";
+import useFetch from "../hooks/useFetch";
+import Loader from "./Loader";
+// import surahs from "../data/surahs";
 function SideBar() {
+  const {
+    data: surahs,
+    loading,
+    error,
+  } = useFetch("http://api.alquran.cloud/v1/surah");
   return (
     <aside className='p-2 w-72 h-screen sticky top-0 space-y-2 text-stone-400 font-semibold'>
       <div className='rounded-lg bg-[#121212]'>
@@ -53,27 +60,33 @@ function SideBar() {
             <span>Quran Surahs</span>
           </Link>
           <div className='no-scrollbar px-2 overflow-y-scroll h-[70vh] cursor-pointer'>
-            {surahs?.map((surah) => {
-              return (
-                <div
-                  key={surah.number}
-                  className='p-2 px-4 rounded-lg hover:bg-stone-900'
-                >
-                  <div>
-                    <p
-                      className={`font-sm ${
-                        surah.number === 5 ? "text-green-500" : "text-white"
-                      }`}
+            {loading && <Loader />}
+            {!loading &&
+              surahs?.data?.map((surah) => {
+                return (
+                  <Link to={`/surahs/${surah.number}`}>
+                    {" "}
+                    <div
+                      key={surah.number}
+                      className='p-2 px-4 rounded-lg hover:bg-stone-900'
                     >
-                      {surah.englishName}
-                    </p>
-                    <span className='text-xs'>
-                      {surah.englishNameTranslation} • {surah.revelationType}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                      <div>
+                        <p
+                          className={`font-sm ${
+                            surah.number === 5 ? "text-green-500" : "text-white"
+                          }`}
+                        >
+                          Surah {surah.englishName}
+                        </p>
+                        <span className='text-xs'>
+                          {surah.englishNameTranslation} •{" "}
+                          {surah.revelationType}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
         </div>
       </div>
