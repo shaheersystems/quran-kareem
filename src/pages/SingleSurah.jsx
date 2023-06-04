@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import Loader2 from "../components/Loader2";
 import Loader from "../components/Loader";
@@ -16,9 +16,49 @@ function SingleSurah() {
       {error && <p className='text-xl text-red-500'>{error}</p>}
       <div
         className={
-          "p-6  h-48 gap-2 flex flex-col items-start rounded-t-lg justify-center bg-stone-800"
+          "px-6 h-48 gap-8 flex flex-col items-start rounded-t-lg justify-center bg-stone-800"
         }
       >
+        <div className='py-2 w-full flex items-center gap-4'>
+          <Link
+            to={`/surahs/${id !== "1" ? Number(id) - 1 : id}`}
+            className={`p-2 rounded-full bg-black/30 ${
+              id === "1" ? "text-gray-400 cursor-not-allowed" : ""
+            }`}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='currentColor'
+              className='w-5 h-5'
+            >
+              <path
+                fillRule='evenodd'
+                d='M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z'
+                clipRule='evenodd'
+              />
+            </svg>
+          </Link>
+          <Link
+            className={`p-2 rounded-full bg-black/30 ${
+              id === "114" ? "text-gray-400 cursor-not-allowed" : ""
+            }`}
+            to={`/surahs/${id !== "114" ? Number(id) + 1 : id}`}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='currentColor'
+              className='w-5 h-5'
+            >
+              <path
+                fillRule='evenodd'
+                d='M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z'
+                clipRule='evenodd'
+              />
+            </svg>
+          </Link>
+        </div>
         {loading && <Loader2 />}
         {!loading && (
           <div className='flex flex-col gap-4'>
@@ -35,10 +75,10 @@ function SingleSurah() {
           </div>
         )}
       </div>
-      <div className='px-6 py-2 h-[16vh] bg-stone-700 flex items-center gap-5 justify-between'>
+      <div className='px-6 py-2 h-[14vh] bg-stone-700 flex items-center gap-5 justify-between'>
         <button
           title={`Play Surah ${surah?.data.englishName}`}
-          className='bg-green-600 hover:scale-125 transition-all rounded-full p-2 text-black'
+          className='bg-green-600 hover:scale-110 transition-all rounded-full p-2 text-black'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -59,7 +99,7 @@ function SingleSurah() {
           </h1>
         </div>
       </div>
-      <div className='px-6 py-10 h-[51vh] rounded-b-lg no-scrollbar overflow-y-scroll bg-stone-600 flex flex-wrap flex-row-reverse items-center justify-center gap-2'>
+      <div className='px-6 py-10 h-[60vh] rounded-b-lg no-scrollbar overflow-y-scroll bg-stone-600 flex flex-wrap flex-row-reverse items-center justify-center gap-2'>
         {loading && <Loader />}
         {!loading &&
           surah?.data.ayahs.map((ayah, i) => {

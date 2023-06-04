@@ -72,7 +72,7 @@ function SideBar() {
                     >
                       <div>
                         <p
-                          className={`font-sm ${
+                          className={`text-sm font-normal font-inter ${
                             surah.number === 5 ? "text-green-500" : "text-white"
                           }`}
                         >
